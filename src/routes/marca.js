@@ -7,11 +7,11 @@ const pool = require('../database.js');
 
 
 router.get('/' , async (req, res) => {
-    let listMarcas = await pool.query('SELECT * FROM marca');
+    let listMarca = await pool.query('SELECT * FROM marca');
     res.json({
         status: 200,
         message: "Se ha listado correctamente",
-        listMarcas: listMarcas
+        listMarca: listMarca
     });
 });
 
@@ -45,7 +45,7 @@ router.post('/create', async(req,res)=> {
 
 // Actualización de un registro
 
-router.post('update/:id', async(req,res)=>{
+router.post('/update/:id', async(req,res)=>{
     const { id } = req.params;
     const { name } = req.body;
 
@@ -56,6 +56,16 @@ router.post('update/:id', async(req,res)=>{
         status: 200,
         message: "Se ha actualizado correctamente",
         marca:marca
+    });
+});
+
+router.post ('/delete/:id', async (req, res) =>{
+    const { id } = req.params;
+
+    await pool.query('DELETE FROM marca WHERE id = ?', [id]);
+    res.json({
+        status: 200,
+        message: "Se ha eliminado correctamente"
     });
 });
 

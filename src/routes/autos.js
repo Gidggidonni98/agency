@@ -35,11 +35,11 @@ router.post('/create', async(req,res)=>{
         auto:auto
     });
 });
-router.post('update/:id', async(req,res)=>{
+router.post('/update/:id', async(req,res)=>{
     const { id } = req.params;
     const { name, matricula, verificacion, marca } = req.body;
-
-    const auto = { name, matricula, verificacion, marca };
+    var dateUpdated = new Date().toISOString();
+    const auto = { name, matricula, verificacion, updated:dateUpdated, marca };
 
     await pool.query('UPDATE autos SET ? WHERE id = ? ', [auto, id]);
     res.json({
